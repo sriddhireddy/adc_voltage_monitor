@@ -39,3 +39,6 @@ uint16_t ADC_Read(void){
 	return (ADC1->DR);
 
 }
+
+
+
