@@ -2,16 +2,17 @@
 #include "uart_driver.h"
 #include "systick_driver.h"
 
-#define ADC_VREF			(3.3f)
-#define ADC_MAX_VALUE		(4095.0f)
+#define ADC_VREF			(3300U)
+#define ADC_MAX_VALUE		(4095U)
 
 int main(void)
 {
-	uint32_t analogValue;
+	uint16_t analogValue;
 	uint32_t millivolts;
 
 	UART_Init();
 	ADC_Init();
+	SysTick_Init();
 
     UART_WriteString("Voltage Monitor Started\r\n");
 
@@ -26,7 +27,7 @@ int main(void)
 
     	UART_WriteString("Voltage: ");
 
-    	millivolts = (analogValue * 3300U) / 4095U;
+    	millivolts = (analogValue * ADC_VREF) / ADC_MAX_VALUE;
 
 //    	uint32_t volts = millivolts / 1000;
 //    	uint32_t milli = millivolts % 1000;
@@ -35,7 +36,7 @@ int main(void)
     	UART_WriteString(" mV");
 
     	UART_WriteString("\r\n\r\n");
-    	for(volatile uint32_t i=0; i<1000000; i++){}
+    	SysTick_DelayMs(1000);
 
     }
 

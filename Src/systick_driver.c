@@ -15,18 +15,18 @@
 #define CTRL_ENABLE				(1U<<0)
 #define CTRL_CLKSOURCE			(1U<<2)
 
-void Systick_Init(uint32_t ms){
+void SysTick_Init(void){
 
 	SysTick->LOAD = (SYS_CLK / 1000) - 1;
 
 	SysTick->VAL = 0;
 
-	SysTick->CTRL |= (CTRL_ENABLE | CTRL_CLKSOURCE);
+	SysTick->CTRL = (CTRL_ENABLE | CTRL_CLKSOURCE);
 }
 
 void SysTick_DelayMs(uint32_t ms){
 
-	for(int i = 0; i< ms; i++){
+	for(uint32_t i = 0; i< ms; i++){
 
 		SysTick->VAL = 0;
 		while(!(SysTick->CTRL & CTRL_COUNTFLAG));
